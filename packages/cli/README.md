@@ -12,4 +12,4 @@ Full documentation, architecture, and examples:
 
 **https://github.com/volodymyrshk/toolsurf**
 
-Apache-2.0. Built by [Volodymyr Shkarban](https://github.com/volodymyrshk).
+Apache-2.0. Built by [Volodymyr Shkarban](https://github.com/volodymyrshk), with contributions from Oleksandr Leontiev.

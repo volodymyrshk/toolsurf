@@ -343,7 +343,7 @@ ToolSurf is an independent project. It is not affiliated with, endorsed by, or s
 
 [Apache-2.0](LICENSE). See [NOTICE](NOTICE) for attribution.
 
-Built by [Volodymyr Shkarban (@volodymyrshk)](https://github.com/volodymyrshk).
+Built by [Volodymyr Shkarban (@volodymyrshk)](https://github.com/volodymyrshk), with contributions from Oleksandr Leontiev (protocol adapters, analysis modules, rate limiting and reporting code).
 
 ## Citation
 

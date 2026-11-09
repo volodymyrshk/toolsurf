@@ -46,6 +46,9 @@
   },
   "license": "Apache-2.0",
   "author": "Volodymyr Shkarban (https://github.com/volodymyrshk)",
+  "contributors": [
+    "Oleksandr Leontiev"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/volodymyrshk/toolsurf.git",
