@@ -1,0 +1,94 @@
+{
+  "description": "Tool schemas designed to trigger various tool-permissions findings",
+  "tools": [
+    {
+      "name": "execute_command",
+      "description": "Execute a shell command",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "command": {
+            "type": "string",
+            "description": "Shell command to execute"
+          }
+        },
+        "required": ["command"]
+      }
+    },
+    {
+      "name": "read_file",
+      "description": "Read a file from the filesystem",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "File path to read"
+          }
+        },
+        "required": ["path"]
+      }
+    },
+    {
+      "name": "delete_record",
+      "description": "Delete a record from the database",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Record ID to delete"
+          }
+        },
+        "required": ["id"]
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false
+      }
+    },
+    {
+      "name": "fetch_url",
+      "description": "Fetch content from a URL",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "URL to fetch"
+          }
+        },
+        "required": ["url"],
+        "additionalProperties": true
+      },
+      "annotations": {
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "query_database",
+      "description": "Execute a SQL query",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "sql": {
+            "type": "string",
+            "description": "SQL query to execute"
+          }
+        },
+        "required": ["sql"]
+      }
+    },
+    {
+      "name": "undescribed_tool",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  ]
+}

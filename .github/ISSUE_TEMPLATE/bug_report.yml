@@ -1,0 +1,80 @@
+name: Bug report
+description: Something in ToolSurf is broken or produces a wrong result.
+title: "[bug] "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Please remove secrets, tokens, and customer data
+        from logs and reports before posting. For a security issue in ToolSurf
+        itself, use the private advisory link instead of this form.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear description of the bug and its impact.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction
+      description: The exact command, target type, and (if possible) a minimal fixture.
+      placeholder: |
+        toolsurf scan -s "npx -y @modelcontextprotocol/server-filesystem /tmp" --profile quick
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Include the relevant report excerpt or error output.
+      render: text
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: ToolSurf version
+      placeholder: "0.1.0-alpha.1 (output of `toolsurf --version`)"
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: "macOS 15 / Node 22.11 / Bun 1.2.4"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: protocol
+    attributes:
+      label: Target protocol
+      options:
+        - MCP (stdio)
+        - MCP (streamable HTTP)
+        - REST / OpenAPI
+        - GraphQL
+        - gRPC
+        - A2A
+        - OpenAI function calling
+        - LangChain tools
+        - Source-only / scan-source
+        - Not sure
+    validations:
+      required: true

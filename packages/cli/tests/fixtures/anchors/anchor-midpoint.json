@@ -1,0 +1,216 @@
+{
+  "_meta": {
+    "anchor": "BENCHMARK_MIDPOINT",
+    "version": "1.0.0",
+    "description": "Realistic mixed server: 8 tools, some constrained, some not. 1 dangerous capability, some schema issues, basic annotations. Expected: CRS [0.30-0.55], securityScore [45-70], riskLevel MEDIUM or HIGH.",
+    "lastUpdated": "2026-03-31"
+  },
+  "capabilities": {
+    "serverInfo": {
+      "name": "anchor-midpoint-server",
+      "version": "2.3.1"
+    },
+    "protocolVersion": "2025-03-26",
+    "capabilities": {
+      "tools": { "listChanged": true }
+    },
+    "tools": [
+      {
+        "name": "search_documents",
+        "description": "Search internal documents by keyword. Returns matching document titles and snippets.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "maxLength": 500,
+              "description": "Search query"
+            },
+            "limit": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "Maximum results to return"
+            }
+          },
+          "required": ["query"],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true
+        }
+      },
+      {
+        "name": "execute_query",
+        "description": "Execute a read-only SQL query against the analytics database.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "SQL SELECT query to execute"
+            }
+          },
+          "required": ["query"]
+        },
+        "annotations": {
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "send_notification",
+        "description": "Send a notification to a user or channel.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "recipient": {
+              "type": "string",
+              "description": "User ID or channel name"
+            },
+            "message": {
+              "type": "string",
+              "maxLength": 2000,
+              "description": "Notification message body"
+            },
+            "priority": {
+              "type": "string",
+              "enum": ["low", "normal", "high", "urgent"],
+              "description": "Message priority level"
+            }
+          },
+          "required": ["recipient", "message"]
+        }
+      },
+      {
+        "name": "get_user_profile",
+        "description": "Retrieve a user profile by ID. Returns name, email, and role.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "userId": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_-]+$",
+              "maxLength": 64,
+              "description": "User ID to look up"
+            }
+          },
+          "required": ["userId"],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true
+        }
+      },
+      {
+        "name": "update_settings",
+        "description": "Update application settings. Changes take effect immediately.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "key": {
+              "type": "string",
+              "description": "Setting key path (e.g., 'app.theme')"
+            },
+            "value": {
+              "type": "string",
+              "description": "New setting value"
+            }
+          },
+          "required": ["key", "value"]
+        }
+      },
+      {
+        "name": "upload_file",
+        "description": "Upload a file to the storage bucket.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "filename": {
+              "type": "string",
+              "description": "Name for the uploaded file"
+            },
+            "content": {
+              "type": "string",
+              "description": "Base64-encoded file content"
+            },
+            "bucket": {
+              "type": "string",
+              "enum": ["documents", "images", "temp"],
+              "description": "Storage bucket"
+            }
+          },
+          "required": ["filename", "content", "bucket"],
+          "additionalProperties": false
+        }
+      },
+      {
+        "name": "generate_report",
+        "description": "Generate an analytics report and return it as a downloadable URL.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "reportType": {
+              "type": "string",
+              "enum": ["daily", "weekly", "monthly", "custom"],
+              "description": "Type of report to generate"
+            },
+            "startDate": {
+              "type": "string",
+              "format": "date",
+              "description": "Report start date (ISO 8601)"
+            },
+            "endDate": {
+              "type": "string",
+              "format": "date",
+              "description": "Report end date (ISO 8601)"
+            }
+          },
+          "required": ["reportType"],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": true
+        }
+      },
+      {
+        "name": "fetch_external",
+        "description": "Fetch data from an external API endpoint.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "description": "External URL to fetch data from"
+            },
+            "method": {
+              "type": "string",
+              "enum": ["GET", "POST"],
+              "description": "HTTP method"
+            }
+          },
+          "required": ["url"]
+        }
+      }
+    ],
+    "resources": [
+      {
+        "uri": "docs://help",
+        "name": "help_docs",
+        "description": "Help documentation for the application"
+      }
+    ],
+    "prompts": []
+  },
+  "expected": {
+    "crsRange": [0.70, 0.92],
+    "securityScoreRange": [0, 30],
+    "riskLevel": ["HIGH", "CRITICAL"],
+    "capabilityRiskMin": 0.2,
+    "minFindingCount": 5,
+    "maxFindingCount": 40,
+    "requiredFindingPrefixes": ["DC-001", "TP-"],
+    "comment": "A realistic mixed server with dangerous capabilities lands high on CRS. Legacy securityScore floors at 0 due to critical findings. Updated 2026-03-31 to reflect actual pipeline output (new modules added in sprint 2 increased detection coverage)."
+  }
+}

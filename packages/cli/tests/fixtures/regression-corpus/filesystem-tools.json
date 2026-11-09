@@ -1,0 +1,74 @@
+{
+  "id": "filesystem-tools",
+  "kind": "serverCapabilities",
+  "description": "Filesystem tools with unconstrained path parameters and write operations.",
+  "expectedFindingPrefixes": ["DC-004", "DC-005", "RD-005"],
+  "capabilities": {
+    "serverInfo": {
+      "name": "filesystem-mcp",
+      "version": "2026.05-fixture"
+    },
+    "protocolVersion": "2025-11-05",
+    "capabilities": {},
+    "tools": [
+      {
+        "name": "read_file",
+        "description": "Read a file from disk.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "Path to read"
+            }
+          },
+          "required": ["path"]
+        },
+        "annotations": {
+          "readOnlyHint": true
+        },
+        "sourceProtocol": "mcp",
+        "nativeType": "tool"
+      },
+      {
+        "name": "write_file",
+        "description": "Write content to a file.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "Path to write"
+            },
+            "content": {
+              "type": "string",
+              "description": "New file content"
+            }
+          },
+          "required": ["path", "content"]
+        },
+        "sourceProtocol": "mcp",
+        "nativeType": "tool"
+      },
+      {
+        "name": "delete_file",
+        "description": "Delete a file from disk.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "Path to delete"
+            }
+          },
+          "required": ["path"]
+        },
+        "sourceProtocol": "mcp",
+        "nativeType": "tool"
+      }
+    ],
+    "resources": [],
+    "prompts": [],
+    "protocol": "mcp"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "description": "Tool schemas that should pass all tool-permissions checks",
+  "tools": [
+    {
+      "name": "get_weather",
+      "description": "Get the current weather for a location",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "city": {
+            "type": "string",
+            "enum": ["New York", "London", "Tokyo", "Berlin", "Sydney"],
+            "description": "City to get weather for"
+          },
+          "units": {
+            "type": "string",
+            "enum": ["celsius", "fahrenheit"],
+            "description": "Temperature units"
+          }
+        },
+        "required": ["city"],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "calculate",
+      "description": "Perform a mathematical calculation",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "expression": {
+            "type": "string",
+            "pattern": "^[0-9+\\-*/().\\s]+$",
+            "maxLength": 200,
+            "description": "Mathematical expression to evaluate"
+          }
+        },
+        "required": ["expression"],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    }
+  ]
+}

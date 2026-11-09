@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use ToolSurf in research, products, or security assessments, please cite it as below."
+title: ToolSurf
+abstract: >-
+  ToolSurf is an open-source security audit platform for AI agents and tool
+  interfaces. It normalizes MCP servers, REST/OpenAPI, GraphQL, gRPC, A2A,
+  OpenAI function calling, and LangChain tools into a single analysis engine
+  with 39 audit modules, active probing, risk scoring, and compliance mapping.
+authors:
+  - family-names: Shkarban
+    given-names: Volodymyr
+    alias: volodymyrshk
+    website: "https://github.com/volodymyrshk"
+version: 0.1.0-alpha.1
+date-released: "2026-11-09"
+license: Apache-2.0
+repository-code: "https://github.com/volodymyrshk/toolsurf"
+url: "https://github.com/volodymyrshk/toolsurf"
+keywords:
+  - ai-agents
+  - agent-security
+  - llm-security
+  - mcp
+  - model-context-protocol
+  - prompt-injection
+  - security-audit
+  - vulnerability-scanner

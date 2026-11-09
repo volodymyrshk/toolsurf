@@ -1,0 +1,105 @@
+{
+  "_meta": {
+    "anchor": "BENCHMARK_CEILING",
+    "version": "1.0.0",
+    "description": "Score ceiling: clean, well-configured server with no security issues. All tools have constrained schemas, proper annotations, and safe descriptions. Expected: securityScore=100, CRS<0.05, riskLevel=MINIMAL, 0 findings.",
+    "lastUpdated": "2026-03-31"
+  },
+  "capabilities": {
+    "serverInfo": {
+      "name": "anchor-floor-server",
+      "version": "1.x"
+    },
+    "protocolVersion": "2025-03-26",
+    "capabilities": {
+      "tools": {}
+    },
+    "tools": [
+      {
+        "name": "get_weather",
+        "description": "Get the current weather forecast for a specified city. Returns temperature, humidity, and conditions. This tool only reads public weather data and performs no writes.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "city": {
+              "type": "string",
+              "enum": ["New York", "London", "Tokyo", "Berlin", "Sydney", "Paris"],
+              "description": "City to get weather for"
+            },
+            "units": {
+              "type": "string",
+              "enum": ["celsius", "fahrenheit"],
+              "description": "Temperature units"
+            }
+          },
+          "required": ["city"],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "calculate",
+        "description": "Perform a safe mathematical calculation. Accepts arithmetic formulas only (no eval). Returns the numeric result. This is a pure computation with no side effects.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "formula": {
+              "type": "string",
+              "pattern": "^[0-9+\\-*/().\\s]+$",
+              "maxLength": 200,
+              "description": "Mathematical formula to evaluate (arithmetic only)"
+            }
+          },
+          "required": ["formula"],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "get_time",
+        "description": "Get the current time in a specified timezone. Returns an ISO 8601 timestamp. Read-only operation with no side effects.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "timezone": {
+              "type": "string",
+              "enum": ["UTC", "US/Eastern", "US/Pacific", "Europe/London", "Asia/Tokyo"],
+              "description": "IANA timezone identifier"
+            }
+          },
+          "required": ["timezone"],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false
+        }
+      }
+    ],
+    "resources": [],
+    "prompts": []
+  },
+  "expected": {
+    "securityScore": 100,
+    "crsMax": 0.05,
+    "riskLevel": ["MINIMAL"],
+    "capabilityRisk": 0,
+    "trustViolation": 0,
+    "exploitChainDepth": 0,
+    "findingCount": 0,
+    "forbiddenFindingPrefixes": ["DC-", "SSRF-", "AF-", "RUG-", "EC-", "DI-", "INJ-", "IPI-"],
+    "comment": "A clean server must produce zero findings and score 100. Any deviation indicates a false-positive in the detection pipeline."
+  }
+}

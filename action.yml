@@ -1,0 +1,171 @@
+name: "ToolSurf — AI Agent Security Audit"
+description: "Audit AI agents, MCP servers, and tool interfaces with 39 modules across 7 protocols. Produces scored reports with CWE and compliance mappings."
+author: "Volodymyr Shkarban (@volodymyrshk)"
+
+branding:
+  icon: "shield"
+  color: "purple"
+
+inputs:
+  server:
+    description: "Agent or MCP server command/URL to audit (e.g., 'npx -y @modelcontextprotocol/server-filesystem /tmp')"
+    required: true
+  profile:
+    description: "Scan profile: quick (passive only), standard (passive + active), enterprise (full suite)"
+    required: false
+    default: "standard"
+  fail-below:
+    description: "Fail the action if the security score is below this threshold (0-100). Set to 0 to never fail."
+    required: false
+    default: "0"
+  format:
+    description: "Report format: terminal, json, html, markdown, research-json"
+    required: false
+    default: "terminal"
+  sarif:
+    description: "Path to save a SARIF report (enables GitHub Code Scanning integration)"
+    required: false
+    default: ""
+  output:
+    description: "Path to save the scan report"
+    required: false
+    default: ""
+  compliance:
+    description: "Compliance frameworks to map: nist, soc2, asvs, hipaa, pci, iso27001, fedramp, all"
+    required: false
+    default: ""
+  rules:
+    description: "Path to a custom policy rules YAML/JSON file"
+    required: false
+    default: ""
+  min-severity:
+    description: "Only report findings at or above this severity (CRITICAL, HIGH, MEDIUM, LOW, INFO)"
+    required: false
+    default: ""
+  modules:
+    description: "Space-separated list of module IDs to run (default: all)"
+    required: false
+    default: ""
+
+outputs:
+  score:
+    description: "Security score (0-100)"
+    value: ${{ steps.scan.outputs.score }}
+  grade:
+    description: "Letter grade (A+, A, B, C, D, F)"
+    value: ${{ steps.scan.outputs.grade }}
+  findings:
+    description: "Total number of findings"
+    value: ${{ steps.scan.outputs.findings }}
+  critical:
+    description: "Number of CRITICAL findings"
+    value: ${{ steps.scan.outputs.critical }}
+  high:
+    description: "Number of HIGH findings"
+    value: ${{ steps.scan.outputs.high }}
+  report-path:
+    description: "Path to the saved report file"
+    value: ${{ steps.scan.outputs.report_path }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Bun
+      uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: latest
+
+    - name: Install ToolSurf
+      shell: bash
+      run: bun add -g toolsurf@latest
+
+    - name: Run ToolSurf audit
+      id: scan
+      shell: bash
+      env:
+        INPUT_SERVER: ${{ inputs.server }}
+        INPUT_PROFILE: ${{ inputs.profile }}
+        INPUT_FAIL_BELOW: ${{ inputs.fail-below }}
+        INPUT_FORMAT: ${{ inputs.format }}
+        INPUT_SARIF: ${{ inputs.sarif }}
+        INPUT_OUTPUT: ${{ inputs.output }}
+        INPUT_COMPLIANCE: ${{ inputs.compliance }}
+        INPUT_RULES: ${{ inputs.rules }}
+        INPUT_MIN_SEVERITY: ${{ inputs.min-severity }}
+        INPUT_MODULES: ${{ inputs.modules }}
+      run: |
+        set +e
+
+        ARGS=(scan -s "$INPUT_SERVER" --profile "$INPUT_PROFILE" --accept --ci)
+
+        if [ -n "$INPUT_COMPLIANCE" ]; then
+          ARGS+=(--compliance "$INPUT_COMPLIANCE")
+        fi
+        if [ -n "$INPUT_RULES" ]; then
+          ARGS+=(--rules "$INPUT_RULES")
+        fi
+        if [ -n "$INPUT_MIN_SEVERITY" ]; then
+          ARGS+=(--min-severity "$INPUT_MIN_SEVERITY")
+        fi
+        if [ -n "$INPUT_MODULES" ]; then
+          ARGS+=(--modules "$INPUT_MODULES")
+        fi
+        if [ -n "$INPUT_FORMAT" ] && [ "$INPUT_FORMAT" != "terminal" ]; then
+          ARGS+=(-f "$INPUT_FORMAT")
+        fi
+        if [ "$INPUT_FAIL_BELOW" != "0" ]; then
+          ARGS+=(--fail-below "$INPUT_FAIL_BELOW")
+        fi
+
+        REPORT_PATH="${INPUT_OUTPUT:-report.json}"
+        ARGS+=(-o "$REPORT_PATH")
+
+        toolsurf "${ARGS[@]}"
+        SCAN_EXIT=$?
+
+        # Also generate a SARIF report if requested.
+        if [ -n "$INPUT_SARIF" ]; then
+          toolsurf scan -s "$INPUT_SERVER" --profile "$INPUT_PROFILE" --accept --ci -o "$INPUT_SARIF" || true
+        fi
+
+        # Extract metrics without fragile grep parsing.
+        if [ -f "$REPORT_PATH" ]; then
+          METRICS=$(bun -e '
+            const report = JSON.parse(await Bun.file(process.argv[1]).text());
+            const findings = report.findings ?? [];
+            const counts = { CRITICAL: 0, HIGH: 0 };
+            for (const finding of findings) {
+              if (finding.severity in counts) counts[finding.severity]++;
+            }
+            const score = report.summary?.securityScore ?? report.securityScore ?? 0;
+            console.log(`${score} ${findings.length} ${counts.CRITICAL} ${counts.HIGH}`);
+          ' "$REPORT_PATH" 2>/dev/null)
+
+          read -r SCORE FINDINGS CRITICAL HIGH <<< "${METRICS:-0 0 0 0}"
+
+          if [ "${SCORE:-0}" -ge 95 ]; then GRADE="A+";
+          elif [ "${SCORE:-0}" -ge 90 ]; then GRADE="A";
+          elif [ "${SCORE:-0}" -ge 80 ]; then GRADE="B";
+          elif [ "${SCORE:-0}" -ge 70 ]; then GRADE="C";
+          elif [ "${SCORE:-0}" -ge 60 ]; then GRADE="D";
+          else GRADE="F"; fi
+
+          {
+            echo "score=${SCORE:-0}"
+            echo "grade=${GRADE}"
+            echo "findings=${FINDINGS:-0}"
+            echo "critical=${CRITICAL:-0}"
+            echo "high=${HIGH:-0}"
+            echo "report_path=${REPORT_PATH}"
+          } >> "$GITHUB_OUTPUT"
+        fi
+
+        exit "$SCAN_EXIT"
+
+    - name: Upload SARIF (if generated)
+      if: inputs.sarif != '' && always()
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: ${{ inputs.sarif }}
+        category: toolsurf
+      continue-on-error: true

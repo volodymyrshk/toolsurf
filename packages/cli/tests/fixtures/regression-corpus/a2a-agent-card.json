@@ -1,0 +1,96 @@
+{
+  "id": "a2a-agent-card",
+  "kind": "agentCard",
+  "description": "A2A Agent Card with security schemes, task delegation, push notifications, and secondary credential prompts.",
+  "expectedFindingPrefixes": ["IPI-001", "RD-004", "RD-005"],
+  "agentCard": {
+    "name": "federated-payments-agent",
+    "description": "Coordinates payment and browser tasks across peer agents.",
+    "version": "2026.05-fixture",
+    "url": "https://agent.example/a2a",
+    "capabilities": {
+      "streaming": true,
+      "pushNotifications": true,
+      "stateTransitionHistory": true,
+      "extendedAgentCard": true
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "httpAuthSecurityScheme": {
+          "scheme": "Bearer",
+          "bearerFormat": "JWT"
+        }
+      },
+      "serviceApiKey": {
+        "apiKeySecurityScheme": {
+          "name": "x-agent-key",
+          "location": "header"
+        }
+      }
+    },
+    "security": [
+      {
+        "bearerAuth": ["payments:write"]
+      }
+    ],
+    "skills": [
+      {
+        "id": "delegate_payment_task",
+        "name": "Delegate Payment Task",
+        "description": "Delegate a payment task to another agent for completion.",
+        "tags": ["delegation", "payments"],
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "task": {
+              "type": "string"
+            },
+            "agent_url": {
+              "type": "string"
+            },
+            "callback_url": {
+              "type": "string"
+            },
+            "credential": {
+              "type": "string"
+            }
+          },
+          "required": ["task", "agent_url"]
+        }
+      },
+      {
+        "id": "send_push_notification",
+        "name": "Send Push Notification",
+        "description": "Send a push notification after task completion.",
+        "tags": ["push", "notification"],
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "recipient": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": ["recipient", "message"]
+        }
+      },
+      {
+        "id": "browse_web",
+        "name": "Browse Web",
+        "description": "Fetch and summarize a web page.",
+        "tags": ["browser", "web"],
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string"
+            }
+          },
+          "required": ["url"]
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,44 @@
+name: Feature request
+description: Suggest a module, protocol, output format, or workflow.
+title: "[feature] "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      description: Describe the security question or workflow, not just the feature.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: What should ToolSurf do?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+    validations:
+      required: false
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - New audit module
+        - New protocol adapter
+        - Scoring / risk model
+        - Reporting / output format
+        - CI/CD / GitHub Action
+        - CLI / developer experience
+        - Compliance mapping
+        - Documentation
+        - Other
+    validations:
+      required: true

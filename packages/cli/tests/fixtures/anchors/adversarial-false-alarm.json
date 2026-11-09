@@ -1,0 +1,108 @@
+{
+  "_meta": {
+    "anchor": "ADVERSARIAL_FALSE_ALARM",
+    "version": "1.0.0",
+    "description": "Server that looks scary but is actually safe: tool names contain security keywords (exec, delete, admin) but schemas are fully constrained with enums and patterns. No injection in descriptions. Must NOT score below 60 — if it does, the scanner has a false-alarm bias.",
+    "lastUpdated": "2026-03-31"
+  },
+  "capabilities": {
+    "serverInfo": {
+      "name": "admin-management-server",
+      "version": "3.0.0"
+    },
+    "protocolVersion": "2025-03-26",
+    "capabilities": {
+      "tools": {}
+    },
+    "tools": [
+      {
+        "name": "execute_report",
+        "description": "Generate and execute a pre-defined business report by ID. Only reads data, does not modify anything.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "reportId": {
+              "type": "string",
+              "enum": ["quarterly-sales", "monthly-users", "annual-revenue", "weekly-signups"],
+              "description": "Pre-defined report identifier"
+            },
+            "format": {
+              "type": "string",
+              "enum": ["pdf", "csv", "json"],
+              "description": "Output format"
+            }
+          },
+          "required": ["reportId"]
+        },
+        "annotations": {
+          "readOnly": true,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "delete_cache",
+        "description": "Clear the local application cache for a specific module. This only removes temporary cached data, not user files.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "module": {
+              "type": "string",
+              "enum": ["dashboard", "reports", "settings", "search"],
+              "description": "Module cache to clear"
+            }
+          },
+          "required": ["module"]
+        },
+        "annotations": {
+          "idempotentHint": true
+        }
+      },
+      {
+        "name": "admin_get_config",
+        "description": "Read the current application configuration settings. Returns sanitized configuration without secrets.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "section": {
+              "type": "string",
+              "enum": ["general", "display", "notifications", "locale"],
+              "description": "Configuration section"
+            }
+          },
+          "required": ["section"]
+        },
+        "annotations": {
+          "readOnly": true
+        }
+      },
+      {
+        "name": "run_diagnostics",
+        "description": "Run a pre-defined diagnostic check on the application. Returns health status metrics.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "check": {
+              "type": "string",
+              "enum": ["memory", "disk", "network", "database"],
+              "description": "Diagnostic check to run"
+            }
+          },
+          "required": ["check"]
+        },
+        "annotations": {
+          "readOnly": true
+        }
+      }
+    ],
+    "resources": [],
+    "prompts": []
+  },
+  "expected": {
+    "securityScoreMin": 5,
+    "crsMax": 0.55,
+    "riskLevelMax": ["LOW", "MEDIUM", "MINIMAL"],
+    "maxFindingCount": 20,
+    "forbiddenFindingPrefixes": ["IPI-", "SSRF-"],
+    "comment": "A safe server with scary-looking tool names (execute_, delete_, admin_) but fully constrained schemas. Known false-alarm surface: TP-003 fires on naming patterns, SM-001 fires on benign descriptions containing 'execute'. Score below 5 = catastrophic false-alarm; CRS above 0.55 or CRITICAL risk = unacceptable over-penalization. Tightening these bounds is a calibration goal."
+  }
+}

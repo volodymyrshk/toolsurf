@@ -1,0 +1,70 @@
+{
+  "servers": [
+    {
+      "name": "filesystem",
+      "command": "npx -y @modelcontextprotocol/server-filesystem /tmp",
+      "active": true
+    },
+    {
+      "name": "memory",
+      "command": "npx -y @modelcontextprotocol/server-memory",
+      "active": true
+    },
+    {
+      "name": "everything",
+      "command": "npx -y @modelcontextprotocol/server-everything",
+      "active": true
+    },
+    {
+      "name": "sequential-thinking",
+      "command": "npx -y @modelcontextprotocol/server-sequential-thinking",
+      "active": true
+    },
+    {
+      "name": "puppeteer",
+      "command": "npx -y @modelcontextprotocol/server-puppeteer",
+      "active": true
+    },
+    {
+      "name": "fetch",
+      "command": "npx -y @anthropic-ai/mcp-server-fetch",
+      "active": true
+    },
+    {
+      "name": "sqlite",
+      "command": "npx -y @anthropic-ai/mcp-server-sqlite /tmp/test-audit.db",
+      "active": true
+    },
+    {
+      "name": "postgres",
+      "command": "npx -y @anthropic-ai/mcp-server-postgres postgresql://localhost:5432/test",
+      "active": false
+    },
+    {
+      "name": "git",
+      "command": "npx -y @anthropic-ai/mcp-server-git --repository /tmp",
+      "active": true
+    },
+    {
+      "name": "github",
+      "command": "npx -y @modelcontextprotocol/server-github",
+      "active": false
+    },
+    {
+      "name": "brave-search",
+      "command": "npx -y @modelcontextprotocol/server-brave-search",
+      "active": false
+    },
+    {
+      "name": "time",
+      "command": "npx -y @anthropic-ai/mcp-server-time",
+      "active": true
+    }
+  ],
+  "defaults": {
+    "profile": "enterprise",
+    "compliance": ["all"],
+    "timeout": 45000,
+    "format": "json"
+  }
+}

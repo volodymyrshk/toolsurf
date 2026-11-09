@@ -1,0 +1,67 @@
+{
+  "id": "browser-agent-tools",
+  "kind": "serverCapabilities",
+  "description": "Browser agent tools that fetch attacker-controlled web content and can act on page state.",
+  "expectedFindingPrefixes": ["IPI-001", "RD-005"],
+  "capabilities": {
+    "serverInfo": {
+      "name": "browser-agent",
+      "version": "2026.05-fixture"
+    },
+    "protocolVersion": "2025-11-05",
+    "capabilities": {},
+    "tools": [
+      {
+        "name": "browse_web",
+        "description": "Fetch and read a web page for the agent.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string"
+            }
+          },
+          "required": ["url"]
+        },
+        "sourceProtocol": "langchain-tools",
+        "nativeType": "tool"
+      },
+      {
+        "name": "click_selector",
+        "description": "Click a selector in the active browser page.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "selector": {
+              "type": "string"
+            }
+          },
+          "required": ["selector"]
+        },
+        "sourceProtocol": "langchain-tools",
+        "nativeType": "tool"
+      },
+      {
+        "name": "send_page_snapshot",
+        "description": "Send a page snapshot to a configured endpoint.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "webhook_url": {
+              "type": "string"
+            },
+            "html": {
+              "type": "string"
+            }
+          },
+          "required": ["webhook_url", "html"]
+        },
+        "sourceProtocol": "langchain-tools",
+        "nativeType": "tool"
+      }
+    ],
+    "resources": [],
+    "prompts": [],
+    "protocol": "langchain-tools"
+  }
+}

@@ -1,0 +1,44 @@
+TOOLSURF — LEGAL NOTICE & AUTHORIZED USE POLICY
+===================================================
+
+ToolSurf is a security testing tool designed to identify vulnerabilities
+in AI agent tool interfaces, including MCP servers, REST/OpenAPI endpoints,
+GraphQL and gRPC services, A2A agents, OpenAI functions, and LangChain
+tools. This tool is provided for AUTHORIZED SECURITY TESTING ONLY.
+
+BY USING THIS SOFTWARE, YOU AGREE TO THE FOLLOWING:
+
+1. AUTHORIZED TESTING ONLY
+   You will only scan systems that you own, operate, or have explicit
+   written authorization to test. Unauthorized scanning of third-party
+   systems may violate the Computer Fraud and Abuse Act (CFAA), the UK
+   Computer Misuse Act, EU Directive 2013/40/EU, or equivalent laws in
+   your jurisdiction.
+
+2. RESPONSIBLE USE
+   You will not use ToolSurf to:
+   - Attack, disrupt, or damage systems you do not own or control
+   - Exfiltrate data from systems without authorization
+   - Develop exploits for malicious purposes
+   - Bypass security controls on production systems without authorization
+
+3. ACTIVE SCANNING
+   Active modules make tool calls to the target. These calls may have side
+   effects depending on the target's implementation, including writes,
+   state changes, and outbound network requests. Only run active modules
+   against systems you control, disposable test environments, or targets
+   where you have explicit permission for active security testing.
+   `full-active` mode is never appropriate for production targets you do
+   not control.
+
+4. ASSUMPTION OF RISK
+   Security testing inherently involves risk. The author and contributors
+   of ToolSurf are not liable for any damage caused by the use or misuse
+   of this tool. Use at your own risk.
+
+5. COMPLIANCE
+   You are responsible for ensuring your use of ToolSurf complies with
+   all applicable laws, regulations, and organizational policies.
+
+This notice does not modify the Apache 2.0 license under which ToolSurf
+is distributed. See LICENSE for the full license text.

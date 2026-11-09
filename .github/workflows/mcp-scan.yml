@@ -1,0 +1,68 @@
+# Agent Tool Security Scan
+# Reusable GitHub Actions template for auditing agent and MCP tool interfaces on every PR.
+#
+# Usage: Copy this file into your project's .github/workflows/ directory
+# and customize the MCP_SERVER_COMMAND to match your server.
+#
+# For SARIF integration with GitHub Code Scanning, uncomment the
+# upload-sarif step below.
+
+name: Agent Security Scan
+
+on:
+  pull_request:
+    branches: [main, master]
+  push:
+    branches: [main, master]
+  workflow_dispatch: # Allow manual runs
+
+env:
+  # Customize this to your MCP server command
+  MCP_SERVER_COMMAND: "npx -y @modelcontextprotocol/server-filesystem /tmp"
+
+jobs:
+  agent-audit:
+    name: Agent Tool Audit
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write  # Required for SARIF upload
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install toolsurf
+        run: bun add -g toolsurf
+
+      - name: Run passive security scan
+        run: |
+          toolsurf scan \
+            -s "${{ env.MCP_SERVER_COMMAND }}" \
+            --accept \
+            --ci \
+            --profile quick \
+            --compliance all \
+            -o results.sarif
+        continue-on-error: true
+
+      # Optional: Upload SARIF to GitHub Code Scanning
+      # Uncomment to enable security alerts in the Security tab
+      # - name: Upload SARIF
+      #   uses: github/codeql-action/upload-sarif@v3
+      #   with:
+      #     sarif_file: results.sarif
+      #     category: toolsurf
+
+      - name: Upload scan report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: toolsurf-report
+          path: results.sarif
+          retention-days: 30

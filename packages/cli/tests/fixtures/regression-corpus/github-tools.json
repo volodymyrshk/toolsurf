@@ -1,0 +1,100 @@
+{
+  "id": "github-tools",
+  "kind": "serverCapabilities",
+  "description": "GitHub-like tools mixing user-generated content reads with repository mutation tools.",
+  "expectedFindingPrefixes": ["IPI-002", "RD-005"],
+  "capabilities": {
+    "serverInfo": {
+      "name": "github-agent-tools",
+      "version": "2026.05-fixture"
+    },
+    "protocolVersion": "2025-11-05",
+    "capabilities": {},
+    "tools": [
+      {
+        "name": "get_issue",
+        "description": "Read a GitHub issue, comments, and user supplied body text.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string"
+            },
+            "repo": {
+              "type": "string"
+            },
+            "issue_number": {
+              "type": "integer"
+            }
+          },
+          "required": ["owner", "repo", "issue_number"]
+        },
+        "annotations": {
+          "readOnlyHint": true
+        },
+        "sourceProtocol": "rest-api",
+        "nativeType": "operation",
+        "httpMethod": "GET",
+        "endpointPath": "/repos/{owner}/{repo}/issues/{issue_number}"
+      },
+      {
+        "name": "create_pull_request",
+        "description": "Create a pull request from a branch.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "owner": {
+              "type": "string"
+            },
+            "repo": {
+              "type": "string"
+            },
+            "head": {
+              "type": "string"
+            },
+            "base": {
+              "type": "string"
+            },
+            "body": {
+              "type": "string"
+            }
+          },
+          "required": ["owner", "repo", "head", "base"]
+        },
+        "sourceProtocol": "rest-api",
+        "nativeType": "operation",
+        "httpMethod": "POST",
+        "endpointPath": "/repos/{owner}/{repo}/pulls"
+      },
+      {
+        "name": "push_files",
+        "description": "Push files to a branch.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "branch": {
+              "type": "string"
+            },
+            "files": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": ["branch", "files", "message"]
+        },
+        "sourceProtocol": "rest-api",
+        "nativeType": "operation",
+        "httpMethod": "PUT",
+        "endpointPath": "/repos/{owner}/{repo}/contents/{path}"
+      }
+    ],
+    "resources": [],
+    "prompts": [],
+    "protocol": "rest-api"
+  }
+}

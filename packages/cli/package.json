@@ -1,0 +1,61 @@
+{
+  "name": "toolsurf",
+  "version": "0.1.0-alpha.1",
+  "description": "Security audits for AI agents and tool interfaces — 39 modules across MCP, REST, GraphQL, gRPC, A2A, OpenAI, and LangChain.",
+  "type": "module",
+  "bin": {
+    "toolsurf": "./dist/index.js"
+  },
+  "files": ["dist", "README.md", "LICENSE"],
+  "scripts": {
+    "dev": "bun run src/index.ts",
+    "prebuild": "bun run ../../scripts/bake-version.ts",
+    "build": "bun build src/index.ts --outdir dist --target node",
+    "compile": "bun build src/index.ts --compile --outfile toolsurf",
+    "test": "bun test $(find tests -type f \\( -name '*.test.ts' -o -name '*.spec.ts' \\) | sort)",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.0",
+    "chalk": "^5.4.0",
+    "commander": "^13.0.0",
+    "ora": "^8.0.0",
+    "table": "^6.9.0",
+    "yaml": "^2.7.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.7.0"
+  },
+  "keywords": [
+    "ai-agents",
+    "agent-security",
+    "ai-security",
+    "llm-security",
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "prompt-injection",
+    "security",
+    "audit",
+    "vulnerability-scanner"
+  ],
+  "engines": {
+    "node": ">=20.0.0",
+    "bun": ">=1.1.0"
+  },
+  "license": "Apache-2.0",
+  "author": "Volodymyr Shkarban (https://github.com/volodymyrshk)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/volodymyrshk/toolsurf.git",
+    "directory": "packages/cli"
+  },
+  "homepage": "https://github.com/volodymyrshk/toolsurf#readme",
+  "bugs": {
+    "url": "https://github.com/volodymyrshk/toolsurf/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-label="ToolSurf — security audits for AI agents">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#070A12"/>
+      <stop offset="1" stop-color="#101A2E"/>
+    </linearGradient>
+    <linearGradient id="aqua" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#8B5CF6"/>
+      <stop offset="0.5" stop-color="#38BDF8"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7C5CFF"/>
+      <stop offset="1" stop-color="#06B6D4"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.18" cy="0.25" r="0.75">
+      <stop offset="0" stop-color="#7C5CFF" stop-opacity="0.35"/>
+      <stop offset="0.55" stop-color="#06B6D4" stop-opacity="0.10"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="300" fill="url(#bg)"/>
+  <rect width="1200" height="300" fill="url(#glow)"/>
+
+  <!-- subtle grid -->
+  <g stroke="#FFFFFF" stroke-opacity="0.035" stroke-width="1">
+    <path d="M0 75h1200M0 150h1200M0 225h1200"/>
+    <path d="M150 0v300M300 0v300M450 0v300M600 0v300M750 0v300M900 0v300M1050 0v300"/>
+  </g>
+
+  <!-- surf lines -->
+  <g fill="none" stroke="url(#aqua)" stroke-linecap="round">
+    <path d="M620 250c90-52 150-52 240 0s150 52 240 0" stroke-width="2" opacity="0.85"/>
+    <path d="M650 276c80-40 132-40 212 0s132 40 212 0" stroke-width="1.5" opacity="0.45"/>
+    <path d="M590 224c100-64 168-64 268 0s168 64 268 0" stroke-width="1" opacity="0.25"/>
+  </g>
+
+  <!-- mark -->
+  <g transform="translate(72 100)">
+    <rect width="100" height="100" rx="26" fill="url(#mark)"/>
+    <rect width="100" height="100" rx="26" fill="#FFFFFF" opacity="0.06"/>
+    <g fill="none" stroke="#FFFFFF" stroke-linecap="round">
+      <path d="M22 42c10-9 18-9 28 0s18 9 28 0" stroke-width="6" opacity="0.95"/>
+      <path d="M22 58c10-9 18-9 28 0s18 9 28 0" stroke-width="6" opacity="0.72"/>
+      <path d="M22 74c10-9 18-9 28 0s18 9 28 0" stroke-width="6" opacity="0.45"/>
+    </g>
+  </g>
+
+  <!-- wordmark -->
+  <text x="204" y="174" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="78" font-weight="700" letter-spacing="-2.5">
+    <tspan fill="#F8FAFC">Tool</tspan><tspan fill="url(#aqua)">Surf</tspan>
+  </text>
+
+  <text x="208" y="216" font-family="Inter, ui-sans-serif, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14.5" font-weight="600" letter-spacing="5.4" fill="#93A7C7">SECURITY AUDITS FOR AI AGENTS</text>
+
+  <text x="208" y="258" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" fill="#5F7698">39 modules · 7 protocols · Apache-2.0</text>
+
+  <circle cx="1128" cy="248" r="86" fill="none" stroke="#38BDF8" stroke-opacity="0.10" stroke-width="1"/>
+  <circle cx="1128" cy="248" r="58" fill="none" stroke="#38BDF8" stroke-opacity="0.14" stroke-width="1"/>
+</svg>

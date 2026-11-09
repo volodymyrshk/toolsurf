@@ -1,0 +1,60 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+packages/*/dist/
+packages/*/dist-cjs/
+*.tsbuildinfo
+
+# Bun
+bun.lockb
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test coverage
+coverage/
+
+# Compiled binaries
+toolsurf
+toolsurf-*
+
+# Scan artifacts
+*.sarif
+*.sarif.json
+badge.svg
+report.html
+audit-report.html
+audit.html
+
+# Scan data & logs (large, not for repo)
+data/
+packages/*/data/
+*.zip
+*.log
+
+# Session / scratch notes
+SESSION-PROGRESS-*.md
+
+# Backup files
+*.backup
+*.backup-*
+*.bak
+*.orig
+*.tmp
+
+# Claude
+.claude/

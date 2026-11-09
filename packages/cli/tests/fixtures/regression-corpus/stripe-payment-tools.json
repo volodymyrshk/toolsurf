@@ -1,0 +1,58 @@
+{
+  "id": "stripe-payment-tools",
+  "kind": "serverCapabilities",
+  "description": "Stripe-like financial mutation tools without safety annotations.",
+  "expectedFindingPrefixes": ["RD-005"],
+  "capabilities": {
+    "serverInfo": {
+      "name": "stripe-style-payment-agent",
+      "version": "2026.05-fixture"
+    },
+    "protocolVersion": "2025-11-05",
+    "capabilities": {},
+    "tools": [
+      {
+        "name": "create_refund",
+        "description": "Create a card refund for a payment intent.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "payment_intent_id": {
+              "type": "string"
+            },
+            "amount": {
+              "type": "number"
+            },
+            "reason": {
+              "type": "string"
+            }
+          },
+          "required": ["payment_intent_id", "amount"]
+        },
+        "sourceProtocol": "openai-functions",
+        "nativeType": "function"
+      },
+      {
+        "name": "confirm_payment_intent",
+        "description": "Confirm and capture a pending payment intent.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "payment_intent_id": {
+              "type": "string"
+            },
+            "customer_id": {
+              "type": "string"
+            }
+          },
+          "required": ["payment_intent_id"]
+        },
+        "sourceProtocol": "openai-functions",
+        "nativeType": "function"
+      }
+    ],
+    "resources": [],
+    "prompts": [],
+    "protocol": "openai-functions"
+  }
+}
