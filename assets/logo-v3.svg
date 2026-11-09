@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title">
+  <title id="title">ToolSurf: shield and scanning line</title>
+  <rect width="256" height="256" rx="32" fill="#111"/>
+  <path d="M128 36 202 64v57c0 43-27 76-74 99-47-23-74-56-74-99V64z" fill="none" stroke="#fff" stroke-width="8" stroke-linejoin="miter"/>
+  <path d="M38 134h45l20-28 25 51 21-37 11 14h58" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="square" stroke-linejoin="miter"/>
+</svg>

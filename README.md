@@ -1,15 +1,14 @@
 <p align="center">
-  <img src="assets/banner.svg" alt="ToolSurf — security audits for AI agents" width="100%" />
+  <img src="assets/logo-v3.svg" alt="ToolSurf logo: a scanning wave crossing a shield" width="112" />
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/toolsurf"><img alt="npm" src="https://img.shields.io/npm/v/toolsurf?style=flat-square&color=7c5cff" /></a>
-  <img alt="License" src="https://img.shields.io/badge/license-Apache--2.0-blue?style=flat-square" />
-  <img alt="Bun" src="https://img.shields.io/badge/Bun-1.1%2B-orange?style=flat-square" />
-  <img alt="Node" src="https://img.shields.io/badge/Node-20%2B-brightgreen?style=flat-square" />
-  <img alt="Tests" src="https://img.shields.io/badge/tests-926_passing-success?style=flat-square" />
+  <a href="https://www.npmjs.com/package/toolsurf"><img alt="npm" src="https://img.shields.io/npm/v/toolsurf?style=flat-square&color=333333" /></a>
+  <img alt="License" src="https://img.shields.io/badge/license-Apache--2.0-333333?style=flat-square" />
+  <img alt="Bun" src="https://img.shields.io/badge/Bun-1.1%2B-333333?style=flat-square" />
+  <img alt="Node" src="https://img.shields.io/badge/Node-20%2B-333333?style=flat-square" />
   <img alt="Modules" src="https://img.shields.io/badge/modules-39-7c5cff?style=flat-square" />
-  <img alt="Protocols" src="https://img.shields.io/badge/protocols-7-06b6d4?style=flat-square" />
+  <img alt="Protocols" src="https://img.shields.io/badge/protocols-7-333333?style=flat-square" />
 </p>
 
 <h1 align="center">ToolSurf</h1>
@@ -21,24 +20,29 @@
 
 ---
 
+![Monochrome technical illustration of a scan across an agent tool network](assets/readme-hero-v3.png)
+
 ToolSurf is an open-source security scanner for **agent tool interfaces**. It reads what an agent can do — tools, schemas, descriptions, resources, prompts, transports, and auth boundaries — then actively probes the ones you authorize it to touch.
 
 Every protocol is normalized into one analysis engine, so the same 39 modules run whether you're auditing a local MCP server, a remote OpenAPI endpoint, or a gRPC service. Findings carry severity, CWE, confidence, and optional NIST / SOC 2 / OWASP ASVS / HIPAA / PCI DSS / ISO 27001 / FedRAMP mappings.
 
+ToolSurf grew out of security research using an earlier, more permissive scanner to identify potential risks in AI agent tool interfaces. The research examined MCP implementations including Anthropic’s reference filesystem and GitHub servers, Sentry’s MCP server, and MongoDB’s MCP server. Its findings include capability and annotation mismatches, potentially risky tool combinations, and security-relevant instructions in tool descriptions; these are research observations, not a claim that every finding is an exploitable vulnerability.
+
+### From interface to findings
+
+```mermaid
+flowchart LR
+    A["Tool interfaces<br/>MCP · REST · GraphQL · gRPC<br/>A2A · OpenAI · LangChain"] --> B["Adapters<br/>Normalize capabilities"]
+    B --> C["Analysis engine<br/>Passive checks + optional active probes"]
+    C --> D["Findings<br/>Severity · evidence · remediation"]
+    D --> E["Reports<br/>Terminal · JSON · SARIF · HTML · Markdown"]
 ```
-┌──────────────────┐   normalize   ┌──────────────┐   analyze   ┌──────────────┐
-│  MCP · REST      │ ────────────► │  Unified     │ ──────────► │  39 modules  │
-│  GraphQL · gRPC  │               │  capability  │             │  23 passive  │
-│  A2A · OpenAI    │               │  model       │             │  16 active   │
-│  LangChain       │               └──────────────┘             └──────┬───────┘
-└──────────────────┘                                                    │
-                                              findings · score · evidence
-                                                    │
-                                    ┌───────────────▼────────────────┐
-                                    │ terminal · JSON · SARIF · HTML │
-                                    │ markdown · research JSON       │
-                                    └────────────────────────────────┘
-```
+
+| Step | What ToolSurf does |
+| --- | --- |
+| **Discover** | Reads the target's tools, schemas, descriptions, and other capabilities. |
+| **Analyze** | Runs passive checks and, when enabled, active probes against the normalized surface. |
+| **Report** | Produces findings and a score for review or CI integration. |
 
 ## Quick start
 
@@ -326,12 +330,12 @@ git clone https://github.com/volodymyrshk/toolsurf.git
 cd toolsurf
 bun install
 bun run dev -- scan -s "npx -y @modelcontextprotocol/server-filesystem /tmp" --profile quick
-bun run test        # 930 tests
+bun run test
 bun run typecheck
 bun run build
 ```
 
-Current suite: **926 passing, 4 skipped, 0 failing** across 93 files.
+Run the test suite locally to check the current results.
 
 ## Disclaimer
 
