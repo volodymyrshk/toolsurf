@@ -40,8 +40,8 @@ report.html
 audit-report.html
 audit.html
 
-# Scan data & logs (large, not for repo)
-data/
+# Scan data & logs (large, not for repo). Anchored, so that source folders such as packages/cli/src/data are kept.
+/data/
 packages/*/data/
 *.zip
 *.log

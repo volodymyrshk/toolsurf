@@ -1,0 +1,53 @@
+{
+  "critical": [
+    "capture",
+    "charge",
+    "delete",
+    "destroy",
+    "drop",
+    "eval",
+    "execute",
+    "exec",
+    "payout",
+    "refund",
+    "remove",
+    "revoke",
+    "rm",
+    "run",
+    "shell",
+    "transfer",
+    "wipe",
+    "withdraw"
+  ],
+  "high": [
+    "credential",
+    "create",
+    "disable",
+    "email",
+    "export",
+    "fetch",
+    "grant",
+    "import",
+    "invoice",
+    "modify",
+    "payment",
+    "post",
+    "publish",
+    "request",
+    "rotate",
+    "secret",
+    "send",
+    "sms",
+    "token",
+    "update",
+    "upload",
+    "write"
+  ],
+  "medium": [
+    "download",
+    "list",
+    "query",
+    "read",
+    "search"
+  ]
+}
