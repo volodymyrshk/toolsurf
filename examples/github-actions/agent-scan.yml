@@ -17,7 +17,7 @@ on:
   workflow_dispatch: # Allow manual runs
 
 env:
-  # Customize this to your MCP server command
+  # Customize this to your agent or MCP server command
   MCP_SERVER_COMMAND: "npx -y @modelcontextprotocol/server-filesystem /tmp"
 
 jobs:

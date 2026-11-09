@@ -14,4 +14,4 @@ export const CLI_VERSION = "0.1.0-alpha.1";
  * If the build script hasn't run, falls back to "dev" (local development).
  * getScannerCommit() in scan.ts uses this as fallback when runtime git fails.
  */
-export const BUILD_GIT_HASH = "dev";
+export const BUILD_GIT_HASH = "da8911b22b5eb3ae8d296acf84d4adff2238351d";
