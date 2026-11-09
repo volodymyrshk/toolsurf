@@ -188,7 +188,7 @@ export class TuiDashboard {
     // Header
     lines.push(chalk.dim(hLine(BOX.tl, BOX.tr)));
     const target = this.options.targetName ? `  ${this.options.targetName}` : "";
-    const headerText = ` MCP Audit Live${target}  ${done}/${total} modules  ${elapsed}s`;
+    const headerText = ` ToolSurf Live${target}  ${done}/${total} modules  ${elapsed}s`;
     lines.push(chalk.dim(padRow(chalk.bold.cyan(headerText), headerText.length)));
     lines.push(chalk.dim(hLine(BOX.lt, BOX.rt)));
 

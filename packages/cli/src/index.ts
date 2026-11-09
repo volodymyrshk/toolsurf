@@ -787,7 +787,7 @@ program
   .option("--score <number>", "Security score (0-100)")
   .option("-i, --input <file>", "Read score from a JSON report file")
   .option("-o, --output <file>", "Save SVG to file (default: stdout)")
-  .option("--label <text>", "Badge label", "MCP Audit")
+  .option("--label <text>", "Badge label", "ToolSurf")
   .action((opts) => {
     executeBadge({
       score: opts.score !== undefined ? parseInt(opts.score, 10) : undefined,

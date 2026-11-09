@@ -44,6 +44,7 @@ audit.html
 /data/
 packages/*/data/
 *.zip
+*.tgz
 *.log
 
 # Session / scratch notes

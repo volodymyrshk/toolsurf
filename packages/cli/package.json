@@ -6,12 +6,19 @@
   "bin": {
     "toolsurf": "./dist/index.js"
   },
-  "files": ["dist", "README.md", "LICENSE"],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "NOTICE",
+    "LEGAL_NOTICE"
+  ],
   "scripts": {
     "dev": "bun run src/index.ts",
     "prebuild": "bun run ../../scripts/bake-version.ts",
     "build": "bun build src/index.ts --outdir dist --target node",
     "compile": "bun build src/index.ts --compile --outfile toolsurf",
+    "prepublishOnly": "bun run build",
     "test": "bun test $(find tests -type f \\( -name '*.test.ts' -o -name '*.spec.ts' \\) | sort)",
     "typecheck": "tsc --noEmit"
   },

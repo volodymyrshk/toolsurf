@@ -19,7 +19,7 @@ export interface BadgeOptions {
   input?: string;
   /** Output file path (defaults to stdout) */
   output?: string;
-  /** Badge label (default: "MCP Audit") */
+  /** Badge label (default: "ToolSurf") */
   label?: string;
 }
 
@@ -40,7 +40,7 @@ function scoreToGrade(score: number): string {
   return "F";
 }
 
-export function generateBadgeSvg(score: number, label: string = "MCP Audit"): string {
+export function generateBadgeSvg(score: number, label: string = "ToolSurf"): string {
   const color = scoreToColor(score);
   const grade = scoreToGrade(score);
   const rightText = `${score}/100 (${grade})`;

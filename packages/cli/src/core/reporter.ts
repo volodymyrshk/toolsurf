@@ -30,14 +30,11 @@ export type OutputFormat =
 // ─── ASCII Art Logo ──────────────────────────────────────────────────────────
 
 const LOGO = `
- /$$      /$$  /$$$$$$  /$$$$$$$         /$$$$$$                  /$$ /$$   /$$
-| $$$    /$$$ /$$__  $$| $$__  $$       /$$__  $$                | $$|__/  | $$
-| $$$$  /$$$$| $$  \\__/| $$  \\ $$      | $$  \\ $$ /$$   /$$  /$$$$$$$ /$$ /$$$$$$
-| $$ $$/$$ $$| $$      | $$$$$$$/      | $$$$$$$$| $$  | $$ /$$__  $$| $$|_  $$_/
-| $$  $$$| $$| $$      | $$____/       | $$__  $$| $$  | $$| $$  | $$| $$  | $$
-| $$\\  $ | $$| $$    $$| $$            | $$  | $$| $$  | $$| $$  | $$| $$  | $$ /$$
-| $$ \\/  | $$|  $$$$$$/| $$            | $$  | $$|  $$$$$$/|  $$$$$$$| $$  |  $$$$/
-|__/     |__/ \\______/ |__/            |__/  |__/ \\______/  \\_______/|__/   \\___/
+█████  ███   ███  █      ████ █   █ ████  █████
+  █   █   █ █   █ █     █     █   █ █   █ █    
+  █   █   █ █   █ █      ███  █   █ ████  ████ 
+  █   █   █ █   █ █         █ █   █ █  █  █    
+  █    ███   ███  █████ ████   ███  █   █ █    
 `;
 
 /**
@@ -46,7 +43,7 @@ const LOGO = `
  */
 export function printBanner(subtitle?: string): void {
   console.log(chalk.cyan(LOGO));
-  console.log(chalk.dim(`  ── ${subtitle ?? "AI Agent Security Scanner"} ──`));
+  console.log(chalk.dim(`  ── ${subtitle ?? "Security audits for AI agents"} ──`));
   console.log();
 }
 
@@ -140,7 +137,7 @@ function outputTerminal(report: ScanReport, options?: OutputOptions): void {
 function outputCompactHeader(report: ScanReport, minSeverity?: string): void {
   const { server } = report;
   console.log();
-  console.log(chalk.bold.cyan("MCP Audit"));
+  console.log(chalk.bold.cyan("ToolSurf"));
   console.log(chalk.dim("─".repeat(72)));
   console.log(`${chalk.bold("Target:")} ${server.serverInfo.name} v${server.serverInfo.version}`);
   console.log(
@@ -707,7 +704,7 @@ function outputMarkdown(report: ScanReport, writer?: (content: string) => void):
 
   const lines: string[] = [];
 
-  lines.push("# MCP Audit Report");
+  lines.push("# ToolSurf Report");
   lines.push("");
   lines.push(`**Server:** ${escMd(server.serverInfo.name)} v${escMd(server.serverInfo.version)}`);
   lines.push(`**Protocol:** ${escMd(server.protocolVersion)}`);
@@ -876,7 +873,7 @@ function outputHtml(report: ScanReport): void {
   const html = `<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:; font-src data:;">
-<title>MCP Audit Report &mdash; ${esc(server.serverInfo.name)}</title>
+<title>ToolSurf Report &mdash; ${esc(server.serverInfo.name)}</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#030303;color:#d4d4d4;padding:2rem;max-width:960px;margin:0 auto}
@@ -915,7 +912,7 @@ h3{font-size:1rem;margin:1rem 0 .5rem;color:#a3a3a3}
 .footer{text-align:center;margin-top:3rem;padding:1.5rem;border-top:1px solid #171717;color:#404040;font-size:.8rem}
 .footer a{color:#22d3ee;text-decoration:none}
 </style></head><body>
-<div class="header"><h1>MCP Audit Report</h1>
+<div class="header"><h1>ToolSurf Report</h1>
 <div class="meta">${esc(server.serverInfo.name)} v${esc(server.serverInfo.version)} &bull; Protocol ${esc(server.protocolVersion)} &bull; ${server.tools.length} tools, ${server.resources.length} resources, ${server.prompts.length} prompts &bull; ${report.durationMs}ms</div></div>
 <div class="score-card"><div class="score-ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="#334155" stroke-width="10"/><circle cx="60" cy="60" r="52" fill="none" stroke="${scoreColor}" stroke-width="10" stroke-dasharray="${(score / 100) * 327} 327" stroke-linecap="round"/></svg><div class="label"><span class="num">${score}</span><span class="grade">Grade ${grade}</span></div></div>
 <div class="stats"><div class="stat"><div class="n" style="color:#22c55e">${summary.passed}</div><div class="l">Passed</div></div><div class="stat"><div class="n" style="color:#eab308">${summary.warnings}</div><div class="l">Warnings</div></div><div class="stat"><div class="n" style="color:#ef4444">${summary.checksWithFailStatus}</div><div class="l">Failed checks</div></div><div class="stat"><div class="n">${summary.totalChecks}</div><div class="l">Total</div></div></div></div>
